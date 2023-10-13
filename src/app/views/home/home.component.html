@@ -1,19 +1,20 @@
 
-<app-header></app-header>
+<app-header (emitData)="getDataEmit($event)"></app-header>
 <div class="app-container">
   <div class="title-section-container">
     <h1>Found users</h1>
   </div>
   <main class="main-content-container">
-    <app-user-card></app-user-card>
-    <app-user-card></app-user-card>
-    <app-user-card></app-user-card>
-    <app-user-card></app-user-card>
-    <app-user-card></app-user-card>
-    <app-user-card></app-user-card>
+    <app-user-card *ngFor="let item of userData" [user]="item"></app-user-card>
   </main>
+  <div class="content-empty">
+    <h3 *ngIf="userData == null">Data is empty</h3>
+  </div>
   <div class="title-section-container">
     <h1>Graphics</h1>
   </div>
-  <app-chart></app-chart>
+  <app-chart *ngIf="userData != null" [users]="userData"></app-chart>
+  <div class="content-empty">
+    <h3 *ngIf="userData == null">Data is empty</h3>
+  </div>
 </div>

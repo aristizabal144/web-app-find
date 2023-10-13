@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  userData: any = null;
 
+  constructor() {}
+
+  getDataEmit(data: any) {
+    this.userData = data;
+  }
 }

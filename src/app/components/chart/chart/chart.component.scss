@@ -1,0 +1,10 @@
+.chart-container {
+    padding: 40px;
+    width: 50%;
+}
+
+@media (max-width: 800px) {
+    .chart-container {
+        width: 25rem;
+    }
+}

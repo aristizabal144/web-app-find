@@ -2,22 +2,22 @@
   <div class="header-container">
     <div class="image-container">
       <img
-        src="https://img.freepik.com/fotos-premium/foto-lateral-perfil-joven-gafas-mirar-espacio-vacio-pensativo-aislado-sobre-fondo-color-rosa_525549-7634.jpg?w=2000"
+        [src]="user.avatar_url"
         alt=""
       />
     </div>
     <div class="information-container">
       <div class="information-container__left">
-        <h3>Linda Jones</h3>
-        <span>Frontend</span>
+        <h3>{{user?.login}}</h3>
+        <span>{{user?.type}}</span>
       </div>
       <div class="information-container__right">
-        5.5 <i class="fa fa-star"></i>
+        {{user?.score}} <i class="fa fa-star"></i>
       </div>
     </div>
   </div>
   <div class="footer-container">
-    <p>#1231234</p>
-    <i>👀</i>
+    <p>#{{user?.id}}</p>
+    <button type="button" class="btn btn-warning"><i class="fa fa-eye"></i></button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -7,15 +7,19 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  @Output() emitData: EventEmitter<string> = new EventEmitter<string>();
+
   inputSearch: string = ""
-  result: any;
+  resultData: any;
 
   constructor(private userService: UserService) {}
 
   async handleSearch(){
-    let result = await this.userService.getUserListPromise(this.inputSearch);
-      this.result = result;
 
-    console.log(this.result);
+    const maxRegistros = 10;
+
+    let result = await this.userService.getUserListPromise(this.inputSearch);
+
+    this.emitData.emit(result?.items.length > maxRegistros ? result.items.slice(0, maxRegistros) : result.items);
   }
 }

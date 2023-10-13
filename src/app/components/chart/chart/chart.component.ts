@@ -1,27 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Input, SimpleChanges } from '@angular/core';
 import Chart from 'chart.js/auto';
+import { Observable, of } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.css']
+  styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent {
+  @Input() users: any = [];
 
   title = 'ng-chart';
-  chart: any = [];
+  chart: any = {};
 
-  constructor() { }
+  constructor(private userService: UserService) {
+  }
 
-  createChart() {
-    this.chart = new Chart('MyGraph', {
+  createChart(config: any) {
+    this.chart = new Chart('MyGraph', config);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.fillData(changes["users"].currentValue);
+  }
+
+  async fillData(data: any[]) {
+    const users = data.map((user) => user.login) as never[];
+    const promises = data.map(async (user) => {
+      let data = await this.userService.getUserPromise(user.url);
+      return data.followers;
+    });
+
+    let followers = await Promise.all(promises) as never[];
+
+    let chartInfo = {
       type: 'bar',
       data: {
-        labels: ['User 1', 'User 2', 'User 3', 'User 4', 'User 5', 'User 6', 'User 7', 'User 8', 'User 9', 'User 10'],
+        labels: users,
         datasets: [
           {
             label: 'Followers',
-            data: [12, 19, 3, 5, 2, 3, 7, 8, 9, 14],
+            data: followers,
             borderWidth: 1,
             backgroundColor: 'rgb(217, 107, 0)'
           },
@@ -34,11 +54,9 @@ export class ChartComponent {
           },
         },
       },
-    });
-  }
+    }
 
-  ngOnInit() {
-    this.createChart();
+    this.createChart(chartInfo);
   }
 
 

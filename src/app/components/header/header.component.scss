@@ -73,3 +73,15 @@
   background: transparent;
   color: #757575;
 }
+
+@media (max-width: 800px) {
+  .logo-container {
+    h1{
+      display: none;
+    }
+  }
+
+  .input-container {
+    width: 45%;
+  }
+}
